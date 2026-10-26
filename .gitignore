@@ -1,0 +1,15 @@
+node_modules/
+
+# Final report documents and working material
+*.docx
+*.pdf
+screenshots/
+report_tools/
+
+# Local and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+

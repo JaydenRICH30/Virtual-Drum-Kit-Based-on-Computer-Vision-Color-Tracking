@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080c13">
+  <title>Virtual Drum Studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="vendor/tracking-min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div>
+          <p class="eyebrow">FINAL DRAFT · VIRTUAL INSTRUMENT</p>
+          <h1>Virtual Drum Studio</h1>
+        </div>
+      </div>
+      <div class="top-status" aria-label="System status">
+        <span class="status-pill" id="cameraStatus" data-state="idle"><i></i>Camera starting</span>
+        <span class="status-pill" id="midiStatus" data-state="idle"><i></i>MIDI unavailable</span>
+        <span class="status-pill" id="audioStatus" data-state="idle"><i></i>Audio loading</span>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="stage-card" aria-label="Three-dimensional drum kit">
+        <div class="stage-heading">
+          <div>
+            <p class="eyebrow">LIVE PERFORMANCE SPACE</p>
+            <h2>3D Drum Kit</h2>
+          </div>
+          <div class="stage-tools">
+            <span class="fps-readout" id="fpsReadout">60 FPS</span>
+            <span class="latency-readout" id="latencyReadout">Ready</span>
+          </div>
+        </div>
+        <div class="stage-viewport" id="stageViewport">
+          <div class="stage-glow"></div>
+          <canvas id="threeCanvas" aria-label="Interactive 3D drum kit"></canvas>
+          <div class="impact-ripple" id="impactRipple"></div>
+          <div class="stage-hint" id="stageHint">Strike downward from above · lift clear · strike again</div>
+        </div>
+        <div class="stage-footer">
+          <div class="legend"><span class="legend-dot color"></span>Blue tips · X/Y aim</div>
+          <div class="legend"><span class="legend-dot hand"></span>MediaPipe · Z impulse</div>
+          <div class="legend"><kbd>SPACE</kbd> Kick</div>
+          <div class="legend"><kbd>MIDI</kbd> Foot pedal</div>
+        </div>
+      </section>
+
+      <aside class="control-rail">
+        <section class="panel camera-panel">
+          <div class="panel-title"><h2>Camera feed</h2><span class="live-dot">LIVE</span></div>
+          <div class="camera-frame">
+            <video id="video" width="640" height="480" preload autoplay muted playsinline></video>
+            <canvas id="trackingCanvas" width="640" height="480"></canvas>
+            <div class="camera-overlay"><span id="markerReadout">0/2 sticks</span><span id="cameraDevice">Waiting for device</span></div>
+          </div>
+          <button class="primary-button" id="cameraButton" type="button">Restart camera</button>
+          <p class="panel-note" id="cameraMessage">Enter each drum from above with a downward strike. Sideways or upward contact stays silent; lift fully clear before striking again.</p>
+        </section>
+
+        <section class="panel input-panel">
+          <div class="panel-title"><h2>Sensor fusion</h2><span class="mode-label" id="modeLabel">HYBRID</span></div>
+          <div class="segmented" aria-label="Hybrid tracking enabled">
+            <button class="segment active" data-mode="hybrid" type="button" disabled>Color X/Y + MediaPipe Z</button>
+          </div>
+          <div class="route-row"><span class="route-icon blue"></span><div><strong>Hi-hat · Crash · Tom · Snare</strong><small>Blue tip on drum + matching hand Z-axis strike</small></div></div>
+          <div class="route-row"><span class="route-icon kick"></span><div><strong>Kick drum</strong><small>Spacebar or MIDI note 35 / 36</small></div></div>
+          <button class="secondary-button" id="midiButton" type="button">Connect MIDI pedal</button>
+        </section>
+
+        <section class="panel stats-panel">
+          <div class="panel-title"><h2>Session</h2><span id="hitCounter">0 hits</span></div>
+          <div class="stat-grid">
+            <div><span>Last instrument</span><strong id="lastInstrument">—</strong></div>
+            <div><span>Detection</span><strong id="detectionStatus">Initialising</strong></div>
+            <div><span>Hands found</span><strong id="handsReadout">0</strong></div>
+            <div><span>Audio engine</span><strong id="audioReadout">Loading</strong></div>
+          </div>
+          <button class="text-button" id="resetButton" type="button">Reset session</button>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="privacy-footer"><span class="shield">●</span> Camera processing is local. No video, landmarks, or MIDI data leave this device.</footer>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
